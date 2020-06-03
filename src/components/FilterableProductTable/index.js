@@ -43,7 +43,7 @@ export class FilterableProductTable extends React.Component {
           onFilterChange={this.handleFilterChange}
           onShowInStockChange={this.handleShowInStockChange}
         />
-        <Table />
+        <Table products={this.state.products} />
       </main>
     );
   }

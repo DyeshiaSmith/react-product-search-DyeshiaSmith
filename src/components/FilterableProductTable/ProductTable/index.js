@@ -1,13 +1,26 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-// TODO: Write ✍️ fxn. to build 'ProductRows' from 'products'
+const renderProductRows = () => {};
 
-// TODO: Write a fxn. to create the table body using 'categorizedProducts'
+const renderTBody = (products) => {
+  return products.map((products, index) => {
+    return (
+      <tr key="index">
+        <td>{products.name}</td>
+        <td>{products.price}</td>
+      </tr>
+    );
+  });
+};
 
-export const ProductTable = () => {
+export const ProductTable = (props) => {
   return (
     <table>
-      <tbody></tbody>
+      <tbody>{renderTBody(props.products)}</tbody>
     </table>
   );
+};
+ProductTable.propTypes = {
+  products: PropTypes.array,
 };
