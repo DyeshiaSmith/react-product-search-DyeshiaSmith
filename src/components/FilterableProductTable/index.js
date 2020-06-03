@@ -8,11 +8,11 @@ import { getAllProducts } from "../../api";
 export class FilterableProductTable extends React.Component {
   state = {
     products: [],
-    // What else in 'state' ❓🤔
+    category: [], // What else in 'state' ❓🤔
   };
 
   // TODO: Add 2 methods to handle changes...what types of changes? 🤔
-
+  //handlechange() {event.setState}
   async componentDidMount() {
     try {
       this.setState({ products: await getAllProducts() });

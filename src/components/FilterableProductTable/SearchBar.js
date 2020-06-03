@@ -9,7 +9,7 @@ export class SearchBar extends React.Component {
       <Fragment>
         <div>
           <label htmlFor="filter">Search</label>
-          <input id="filter" type="search" />
+          <input id="filter" type="search" onChange{this.handleFilterChange}/>
         </div>
         <div>
           <label htmlFor="in-stock">Only Show In Stock Items</label>

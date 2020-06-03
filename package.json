@@ -20,6 +20,7 @@
       "prettier"
     ],
     "rules": {
+      "array-callback-return": "error",
       "prettier/prettier": "warn",
       "react/jsx-handler-names": [2]
     }
