@@ -12,6 +12,7 @@ const filterCBs = {
 
 export class FilterableProductTable extends React.Component {
   state = {
+    maxPrice: null,
     searchTerm: "",
     isInStockOnly: false,
     products: [],
