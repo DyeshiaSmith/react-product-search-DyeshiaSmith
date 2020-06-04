@@ -1,7 +1,5 @@
-import React from "react";
 import PropTypes from "prop-types";
-
-//const renderProductRows = () => {};
+import React from "react";
 
 const renderTBody = (products) => {
   return products.map(({ name, price }, index) => {

@@ -1,7 +1,9 @@
 import React from "react";
 
-import { SearchBar as Search } from "./SearchBar";
+import { InStockCheck as InStock } from "./Filters";
+import { PriceBar as Price } from "./Filters";
 import { ProductTable as Table } from "./ProductTable";
+import { SearchBar as Search } from "./Filters";
 
 import { getAllProducts } from "api";
 
@@ -12,10 +14,10 @@ const filterCBs = {
 
 export class FilterableProductTable extends React.Component {
   state = {
-    maxPrice: null,
-    searchTerm: "",
     isInStockOnly: false,
+    maxPrice: null,
     products: [],
+    searchTerm: "",
   };
 
   handleFilterChange = (searchTerm) => {
@@ -46,10 +48,9 @@ export class FilterableProductTable extends React.Component {
 
     return (
       <main>
-        <Search
-          onFilterChange={this.handleFilterChange}
-          onShowInStockChange={this.handleShowInStockChange}
-        />
+        <Search onFilterChange={this.handleFilterChange} />
+        <InStock onShowInStockChange={this.handleShowInStockChange} />
+        <Price />
         <Table products={filteredProducts} />
       </main>
     );
