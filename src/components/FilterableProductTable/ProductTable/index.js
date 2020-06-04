@@ -1,23 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const renderProductRows = () => {};
+//const renderProductRows = () => {};
 
 const renderTBody = (products) => {
-  return products.map((products, index) => {
+  return products.map(({ name, price }, index) => {
     return (
-      <tr key="index">
-        <td>{products.name}</td>
-        <td>{products.price}</td>
+      <tr key={index}>
+        <td>{name}</td>
+        <td>{price}</td>
       </tr>
     );
   });
 };
 
-export const ProductTable = (props) => {
+export const ProductTable = ({ products }) => {
   return (
     <table>
-      <tbody>{renderTBody(props.products)}</tbody>
+      <tbody>{renderTBody(products)}</tbody>
     </table>
   );
 };

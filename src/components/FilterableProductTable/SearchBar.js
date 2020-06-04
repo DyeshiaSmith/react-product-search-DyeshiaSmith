@@ -16,7 +16,6 @@ export class SearchBar extends React.Component {
 
   render() {
     return (
-      // https://reactjs.org/docs/fragments.html
       <Fragment>
         <div>
           <label htmlFor="filter">Search</label>

@@ -3,13 +3,18 @@ import React from "react";
 import { SearchBar as Search } from "./SearchBar";
 import { ProductTable as Table } from "./ProductTable";
 
-import { getAllProducts } from "../../api";
+import { getAllProducts } from "api";
+
+const filterCBs = {
+  inStockOnly: ({ stocked }) => stocked,
+  unfiltered: () => true,
+};
 
 export class FilterableProductTable extends React.Component {
   state = {
-    products: [],
-    filterTerm: "",
+    searchTerm: "",
     isInStockOnly: false,
+    products: [],
   };
 
   handleFilterChange = (searchTerm) => {
@@ -29,21 +34,22 @@ export class FilterableProductTable extends React.Component {
   }
 
   render() {
-    // How to know whether or not to filter 'isInStockOnly' or not? 🤔
+    // Ternary
+    const filterINeed = this.state.isInStockOnly ? "inStockOnly" : "unfiltered";
 
-    // TODO: Create 'filter' methods that we can 'plug in' as needed
-    // https://github.com/Claim-Academy-JS/json-api/blob/master/src/index.js
-
-    // How to filter products by name that is typed in and with 'isInStockOnly' using 'filterCB' ❓
+    const filteredProducts = this.state.products
+      .filter(({ name }) =>
+        name.toLowerCase().includes(this.state.searchTerm.toLowerCase())
+      )
+      .filter(filterCBs[filterINeed]);
 
     return (
       <main>
-        {/* TODO: Pass in 'props' to components as needed */}
         <Search
           onFilterChange={this.handleFilterChange}
           onShowInStockChange={this.handleShowInStockChange}
         />
-        <Table products={this.state.products} />
+        <Table products={filteredProducts} />
       </main>
     );
   }
