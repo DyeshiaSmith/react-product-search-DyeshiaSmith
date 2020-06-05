@@ -43,13 +43,23 @@ export class FilterableProductTable extends React.Component {
   }
 
   render() {
-    // Ternary
-    const filterINeed = this.state.maxPrice ? "maxPrice" : "unfiltered";
-    const filteredProducts = this.state.products
-      .filter(({ name }) =>
-        name.toLowerCase().includes(this.state.searchTerm.toLowerCase())
-      )
-      .filter(this.filterCBs[filterINeed]);
+    //use object.keys
+    //iterate over array
+    // figure out which is a truthy
+    //then reduce array filter cbs into one finished product
+    let filteredProducts = this.state.products;
+
+    if (this.state.maxPrice) {
+      filteredProducts = filteredProducts.filter(this.filterCBs.maxPrice);
+    }
+
+    if (this.state.inStockOnly) {
+      filteredProducts = filteredProducts.filter(this.filterCBs.inStockOnly);
+    }
+
+    filteredProducts = filteredProducts.filter(({ name }) =>
+      name.toLowerCase().includes(this.state.searchTerm.toLowerCase())
+    );
 
     return (
       <main>
