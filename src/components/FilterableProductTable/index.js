@@ -10,7 +10,7 @@ import { parseDollarPrice } from "utils";
 
 export class FilterableProductTable extends React.Component {
   state = {
-    isInStockOnly: false,
+    inStockOnly: false,
     maxPrice: null,
     products: [],
     searchTerm: "",
@@ -20,7 +20,6 @@ export class FilterableProductTable extends React.Component {
     inStockOnly: ({ stocked }) => stocked,
     maxPrice: ({ price }) =>
       parseDollarPrice(price) <= parseFloat(this.state.maxPrice),
-    unfiltered: () => true,
   };
 
   handleFilterChange = (searchTerm) => {
@@ -42,24 +41,26 @@ export class FilterableProductTable extends React.Component {
     }
   }
 
+  filterCBNames = Object.keys(this.filterCBs);
+
+  stateNames = Object.keys(this.state);
+
+  filterableStateNames = this.stateNames.filter((stateName) =>
+    this.filterCBNames.includes(this.stateName)
+  );
+
   render() {
-    //use object.keys
-    //iterate over array
-    // figure out which is a truthy
-    //then reduce array filter cbs into one finished product
+    console.log(this.filterCBMethods);
+
     let filteredProducts = this.state.products;
+
+    if (this.state.isInStockOnly) {
+      filteredProducts = filteredProducts.filter(this.filterCBs.inStockOnly);
+    }
 
     if (this.state.maxPrice) {
       filteredProducts = filteredProducts.filter(this.filterCBs.maxPrice);
     }
-
-    if (this.state.inStockOnly) {
-      filteredProducts = filteredProducts.filter(this.filterCBs.inStockOnly);
-    }
-
-    filteredProducts = filteredProducts.filter(({ name }) =>
-      name.toLowerCase().includes(this.state.searchTerm.toLowerCase())
-    );
 
     return (
       <main>
