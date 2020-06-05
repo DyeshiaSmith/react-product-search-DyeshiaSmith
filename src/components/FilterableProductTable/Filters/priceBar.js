@@ -7,15 +7,14 @@ export class PriceBar extends React.Component {
   };
 
   handleInputChange = ({ target }) => {
-    // Send the value from the input that caused this 'event' to the parent
     this.props.onPriceChange(target.value);
   };
 
   render() {
     return (
       <div>
-        <label htmlFor="filter">Max Price</label>
-        <input id="filter" type="number" onChange={this.handleInputChange} />
+        <label htmlFor="Price">Max Price</label>
+        <input id="Price" type="number" onChange={this.handleInputChange} />
       </div>
     );
   }

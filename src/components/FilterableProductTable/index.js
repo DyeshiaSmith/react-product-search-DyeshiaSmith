@@ -6,11 +6,7 @@ import { ProductTable as Table } from "./ProductTable";
 import { SearchBar as Search } from "./Filters";
 
 import { getAllProducts } from "api";
-
-const filterCBs = {
-  inStockOnly: ({ stocked }) => stocked,
-  unfiltered: () => true,
-};
+import { parseDollarPrice } from "utils";
 
 export class FilterableProductTable extends React.Component {
   state = {
@@ -20,10 +16,20 @@ export class FilterableProductTable extends React.Component {
     searchTerm: "",
   };
 
+  filterCBs = {
+    inStockOnly: ({ stocked }) => stocked,
+    maxPrice: ({ price }) =>
+      parseDollarPrice(price) <= parseFloat(this.state.maxPrice),
+    unfiltered: () => true,
+  };
+
   handleFilterChange = (searchTerm) => {
     this.setState({ searchTerm });
   };
 
+  handlePriceChange = (maxPrice) => {
+    this.setState({ maxPrice });
+  };
   handleShowInStockChange = (isInStockOnly) => {
     this.setState({ isInStockOnly });
   };
@@ -38,19 +44,18 @@ export class FilterableProductTable extends React.Component {
 
   render() {
     // Ternary
-    const filterINeed = this.state.isInStockOnly ? "inStockOnly" : "unfiltered";
-
+    const filterINeed = this.state.maxPrice ? "maxPrice" : "unfiltered";
     const filteredProducts = this.state.products
       .filter(({ name }) =>
         name.toLowerCase().includes(this.state.searchTerm.toLowerCase())
       )
-      .filter(filterCBs[filterINeed]);
+      .filter(this.filterCBs[filterINeed]);
 
     return (
       <main>
         <Search onFilterChange={this.handleFilterChange} />
         <InStock onShowInStockChange={this.handleShowInStockChange} />
-        <Price />
+        <Price onPriceChange={this.handlePriceChange} />
         <Table products={filteredProducts} />
       </main>
     );

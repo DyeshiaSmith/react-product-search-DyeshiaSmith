@@ -7,7 +7,6 @@ export class SearchBar extends React.Component {
   };
 
   handleInputChange = ({ target }) => {
-    // Send the value from the input that caused this 'event' to the parent
     this.props.onFilterChange(target.value);
   };
 
