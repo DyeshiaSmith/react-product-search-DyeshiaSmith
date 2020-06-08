@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Input } from "./Input";
+
 import { InStockCheck as InStock } from "./Filters";
 import { PriceBar as Price } from "./Filters";
 import { ProductTable as Table } from "./ProductTable";
@@ -20,6 +22,8 @@ export class FilterableProductTable extends React.Component {
     inStockOnly: ({ stocked }) => stocked,
     maxPrice: ({ price }) =>
       parseDollarPrice(price) <= parseFloat(this.state.maxPrice),
+    searchTerm: ({ name }) =>
+      name.toLowerCase().includes(this.state.searchTerm.toLowerCase()),
   };
 
   handleFilterChange = (searchTerm) => {
@@ -29,8 +33,8 @@ export class FilterableProductTable extends React.Component {
   handlePriceChange = (maxPrice) => {
     this.setState({ maxPrice });
   };
-  handleShowInStockChange = (isInStockOnly) => {
-    this.setState({ isInStockOnly });
+  handleShowInStockChange = (inStockOnly) => {
+    this.setState({ inStockOnly });
   };
 
   async componentDidMount() {
@@ -45,25 +49,26 @@ export class FilterableProductTable extends React.Component {
 
   stateNames = Object.keys(this.state);
 
-  filterableStateNames = this.stateNames.filter((stateName) =>
-    this.filterCBNames.includes(this.stateName)
+  filterableStateNames = Object.keys(this.state).filter((stateName) =>
+    this.filterCBNames.includes(stateName)
   );
 
   render() {
-    console.log(this.filterCBMethods);
-
-    let filteredProducts = this.state.products;
-
-    if (this.state.isInStockOnly) {
-      filteredProducts = filteredProducts.filter(this.filterCBs.inStockOnly);
-    }
-
-    if (this.state.maxPrice) {
-      filteredProducts = filteredProducts.filter(this.filterCBs.maxPrice);
-    }
+    const filteredProducts = this.filterableStateNames.reduce(
+      (accumulatedProducts, filterableStateNames) => {
+        if (this.state[filterableStateNames]) {
+          return accumulatedProducts.filter(
+            this.filterCBs[filterableStateNames]
+          );
+        }
+        return accumulatedProducts;
+      },
+      this.state.products
+    );
 
     return (
       <main>
+        <Input label="Test " type="text" value="value" />
         <Search onFilterChange={this.handleFilterChange} />
         <InStock onShowInStockChange={this.handleShowInStockChange} />
         <Price onPriceChange={this.handlePriceChange} />
