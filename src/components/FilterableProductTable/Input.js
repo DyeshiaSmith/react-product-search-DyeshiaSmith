@@ -7,12 +7,13 @@ import kebabcase from "lodash.kebabcase";
 export class Input extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
+    proxy: PropTypes.object.isRequired,
     type: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   };
 
   handleChange = ({ target }) => {
-    console.log(camelCase(target[this.props.value]));
+    this.props.proxy[camelCase(this.props.label)] = target[this.props.value];
   };
 
   kebabLabel = kebabcase(this.props.label);

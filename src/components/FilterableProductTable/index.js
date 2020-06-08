@@ -14,23 +14,19 @@ export class FilterableProductTable extends React.Component {
     search: "",
   };
 
+  stateProxy = new Proxy(this, {
+    set(comp, prop, value) {
+      comp.setState({ [prop]: value });
+      return true;
+    },
+  });
+
   filterCBs = {
     inStockOnly: ({ stocked }) => stocked,
     maxPrice: ({ price }) =>
       parseDollarPrice(price) <= parseFloat(this.state.maxPrice),
     searchTerm: ({ name }) =>
-      name.toLowerCase().includes(this.state.searchTerm.toLowerCase()),
-  };
-
-  handleFilterChange = (searchTerm) => {
-    this.setState({ searchTerm });
-  };
-
-  handlePriceChange = (maxPrice) => {
-    this.setState({ maxPrice });
-  };
-  handleShowInStockChange = (inStockOnly) => {
-    this.setState({ inStockOnly });
+      name.toLowerCase().includes(this.state.search.toLowerCase()),
   };
 
   async componentDidMount() {
@@ -72,6 +68,7 @@ export class FilterableProductTable extends React.Component {
           label={labelTextContent}
           type={inputType}
           value={val}
+          proxy={this.stateProxy}
           key={index}
         />
       )
