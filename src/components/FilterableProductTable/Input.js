@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
+import camelCase from "camelcase";
 import kebabcase from "lodash.kebabcase";
 
 export class Input extends React.Component {
@@ -11,7 +12,7 @@ export class Input extends React.Component {
   };
 
   handleChange = ({ target }) => {
-    console.log(target[this.props.value]);
+    console.log(camelCase(target[this.props.value]));
   };
 
   kebabLabel = kebabcase(this.props.label);
