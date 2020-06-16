@@ -1,0 +1,7 @@
+/node_modules
+.env
+
+#created by 'webpack'
+/dist
+
+.DS_store
